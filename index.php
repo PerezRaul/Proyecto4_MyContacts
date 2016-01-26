@@ -34,7 +34,8 @@
                     ?>
                 </div>
         		<input type="submit" name="entrar" value="Entrar" />
-        	</form>
+        	</form><br />
+            ¿Todavía no eres miembro? <a href="agregar_usuario.php">¡Haz clic aquí!</a><br /><br />
         </section>
         <footer>
         	Footer

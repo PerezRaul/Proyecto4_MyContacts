@@ -1,20 +1,23 @@
 <?php
-	include('conexion.php');
+	session_start();
 
-	$sql_modificar = "UPDATE tbl_contacto SET con_nombre='$_REQUEST[nombre]', con_apellidos='$_REQUEST[apellidos]', con_mail='$_REQUEST[mail]', con_direccion='$_REQUEST[direccion]', con_telefono_fijo='$_REQUEST[telf_fijo]', con_telefono_movil='$_REQUEST[telf_movil]' WHERE con_id=$_REQUEST[id]";
+	if(isset($_SESSION['username'])){
+		include('conexion.php');
 
-	$con_id = $_REQUEST['id'];
+		$sql_eliminar = "DELETE FROM tbl_contacto WHERE con_id=$_REQUEST[con_id];";
 
-	$datos_modificar = mysqli_query($con,utf8_decode($sql_modificar));
+		$datos_eliminar = mysqli_query($con,utf8_decode($sql_eliminar));
 
-	if(mysqli_affected_rows($datos_modificar) == 0){
-		$_SESSION['error'] = "¡No se ha podido eliminar el contacto!";
-		header("location: principal.php");
+		if(mysqli_affected_rows($datos_eliminar) == 0){
+			$_SESSION['error'] = "¡No se ha podido eliminar el contacto!";
+			header("location: principal.php");
+		} else {
+			header('location: principal.php');
+		}
+
+		mysqli_close($con);
 	} else {
-
-		header('location: principal.php');
+		$_SESSION['error'] = "¡No has iniciado sesión!";
+		header('location: index.php');
 	}
-
-	mysqli_close($con);
-
 ?>

@@ -19,6 +19,8 @@
 				<header>
 		        	<h1>Agenda de contactos</h1>
 		        </header>
+
+		        <a href="agregar_contacto.php">Añadir contacto</a><br /><br />
 		<?php
 				include('conexion.php');
 
@@ -31,7 +33,7 @@
 						echo "Apellidos del contacto: ".utf8_encode($contacto['con_apellidos'])."<br />";
 						echo "Mail del contacto: ".$contacto['con_mail']."<br />";
 						echo "Dirección del contacto: ".utf8_encode($contacto['con_direccion'])."<br />";
-						echo "Teleéfono fijo del contacto: ".$contacto['con_telefono_fijo']."<br />";
+						echo "Teléfono fijo del contacto: ".$contacto['con_telefono_fijo']."<br />";
 						echo "Teléfono móvil del contacto: ".$contacto['con_telefono_movil']."<br /><br />";
 						echo "<a href='modificar_contacto.php?con_id=$contacto[con_id]'>Modificar</a> <a href='eliminar_contacto.proc.php?con_id=$contacto[con_id]'>Eliminar</a><br /><br />";
 					}

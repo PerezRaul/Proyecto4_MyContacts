@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Modificar contactos</title>
+        <title>Modificar contacto</title>
         <meta lang="es">
         <meta charset="utf-8">
         <meta name="author" content="Raúl">
@@ -36,7 +36,7 @@
 						Apellidos del contacto: <input type="text" name="apellidos" value="<?php echo utf8_encode($modificar['con_apellidos']); ?>" /><br /><br />
 						E-mail del contacto: <input type="text" name="mail" value="<?php echo $modificar['con_mail']; ?>" /><br /><br />
 						Dirección del contacto: <input type="text" name="direccion" value="<?php echo utf8_encode($modificar['con_direccion']); ?>" /><br /><br />
-						Telefono fijo del contacto: <input type="text" name="telf_fijo" value="<?php echo $modificar['con_telefono_fijo']; ?>" /><br /><br />
+						Teléfono fijo del contacto: <input type="text" name="telf_fijo" value="<?php echo $modificar['con_telefono_fijo']; ?>" /><br /><br />
 						Teléfono móvil del contacto: <input type="text" name="telf_movil" value="<?php echo $modificar['con_telefono_movil']; ?>" /><br /><br />
 						<div>
 		                    <?php
