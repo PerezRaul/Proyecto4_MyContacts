@@ -13,8 +13,8 @@
         <meta charset="utf-8">
         <meta name="author" content="Raúl">
         <!-- <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" type="text/css" href="css/global.css">
-        <link rel="icon" type="image/png" href="img/favicon.png" /> -->
+        <link rel="stylesheet" type="text/css" href="css/global.css">-->
+        <link rel="icon" type="image/png" href="img/favicon.png" /> 
     </head>
     <body>
     	<?php
