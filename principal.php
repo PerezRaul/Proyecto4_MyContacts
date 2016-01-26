@@ -25,15 +25,15 @@
 				$sql_contactos = "SELECT * FROM tbl_contacto WHERE log_id=$_SESSION[id]";
 				$datos_contactos = mysqli_query($con, $sql_contactos);
 
-				if(mysqli_num_rows($datos_contactos)>0){
-					while($contacto=mysqli_fetch_array($datos_contactos)){
-						echo "Nombre del contacto: ".$contacto['con_nombre']."<br />";
-						echo "Apellidos del contacto: ".$contacto['con_apellidos']."<br />";
+				if(mysqli_num_rows($datos_contactos) > 0){
+					while($contacto = mysqli_fetch_array($datos_contactos)){
+						echo "Nombre del contacto: ".utf8_encode($contacto['con_nombre'])."<br />";
+						echo "Apellidos del contacto: ".utf8_encode($contacto['con_apellidos'])."<br />";
 						echo "Mail del contacto: ".$contacto['con_mail']."<br />";
-						echo "Dirección del contacto: ".$contacto['con_direccion']."<br />";
+						echo "Dirección del contacto: ".utf8_encode($contacto['con_direccion'])."<br />";
 						echo "Teleéfono fijo del contacto: ".$contacto['con_telefono_fijo']."<br />";
 						echo "Teléfono móvil del contacto: ".$contacto['con_telefono_movil']."<br /><br />";
-						echo "<a href='modificar.php'>Modificar</a> <a href='eliminar.php'>Eliminar</a>";
+						echo "<a href='modificar_contacto.php?con_id=$contacto[con_id]'>Modificar</a> <a href='eliminar_contacto.proc.php?con_id=$contacto[con_id]'>Eliminar</a><br /><br />";
 					}
 
 				} else {
@@ -42,7 +42,7 @@
 
 
 			}else {
-				$_SESSION['error']="¡No has iniciado sesión!";
+				$_SESSION['error'] = "¡No has iniciado sesión!";
 				header("location: index.php");
 			}
 		

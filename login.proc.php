@@ -3,13 +3,6 @@
 
 	include('conexion.php');
 
-	/* if(!isset($_SESSION['mail'])){
-		$_SESSION['error']="No has iniciado sesión!";
-		header("location: login.php");
-	} */
-
-	
-
 	$pwd_encript = md5($_REQUEST['pwd']);
 
 	$sql_login = "SELECT * FROM tbl_login WHERE log_username='$_REQUEST[username]' AND log_password='$pwd_encript'";
