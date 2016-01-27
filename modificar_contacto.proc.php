@@ -5,7 +5,7 @@
 
 		include('conexion.php');
 
-		$sql_modificar = "UPDATE tbl_contacto SET con_nombre='$_REQUEST[nombre]', con_apellidos='$_REQUEST[apellidos]', con_mail='$_REQUEST[mail]', con_direccion='$_REQUEST[direccion]', con_telefono_fijo='$_REQUEST[telf_fijo]', con_telefono_movil='$_REQUEST[telf_movil]' WHERE con_id=$_REQUEST[id]";
+		$sql_modificar = "UPDATE tbl_contacto SET con_nombre='$_REQUEST[nombre]', con_apellidos='$_REQUEST[apellidos]', con_mail='$_REQUEST[mail]', con_telefono_fijo='$_REQUEST[telf_fijo]', con_telefono_movil='$_REQUEST[telf_movil]' WHERE con_id=$_REQUEST[id]";
 
 		$con_id = $_REQUEST['id'];
 

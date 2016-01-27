@@ -7,7 +7,7 @@
 
 		$id_usuario = $_SESSION['id'];
 
-		$sql_agregar = "INSERT INTO tbl_contacto (con_nombre, con_apellidos, con_mail, con_direccion, con_telefono_fijo, con_telefono_movil, log_id) VALUES ('$_REQUEST[nombre]', '$_REQUEST[apellidos]', '$_REQUEST[mail]', '$_REQUEST[direccion]', '$_REQUEST[telf_fijo]', '$_REQUEST[telf_mvl]', $id_usuario);";
+		$sql_agregar = "INSERT INTO tbl_contacto (con_nombre, con_apellidos, con_mail, con_telefono_fijo, con_telefono_movil, log_id) VALUES ('$_REQUEST[nombre]', '$_REQUEST[apellidos]', '$_REQUEST[mail]', '$_REQUEST[telf_fijo]', '$_REQUEST[telf_mvl]', $id_usuario);";
 
 		$datos_agregar = mysqli_query($con,utf8_decode($sql_agregar));
 

@@ -20,7 +20,7 @@
 
 
 	} else {
-		$_SESSION['error'] = 'Usuario y/o contraseña incorrectos';
+		$_SESSION['error'] = '¡Usuario y/o contraseña incorrectos!';
 		header('location: index.php');
 	}
 
