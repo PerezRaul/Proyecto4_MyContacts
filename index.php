@@ -31,6 +31,28 @@
         <!-- FONTAWESOME ICONS-->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
+        <!-- EFECTO METRO -->
+        <script>            
+            jQuery(document).ready(function() {
+                var offset = 220;
+                var duration = 500;
+                jQuery(window).scroll(function() {
+                    if (jQuery(this).scrollTop() > offset) {
+                        jQuery('.crunchify-top').fadeIn(duration);
+                    } else {
+                        jQuery('.crunchify-top').fadeOut(duration);
+                    }
+                });
+           
+                jQuery('.crunchify-top').click(function(event) {
+                    event.preventDefault();
+                    jQuery('html, body').animate({scrollTop: 0}, duration);
+                    return false;
+                })
+            });
+        </script>
+
+
     </head>
     <body cz-shorcut-listen="true">
         <div id="cont">
@@ -65,7 +87,8 @@
                 </article>
             </section>
             <footer id="foot">
-            	<p>Derechos reservados &copy;2016 - Alejandro Moreno y Raúl Pérez</p>
+            	<b><p>Derechos reservados &copy;2016 - Alejandro Moreno y Raúl Pérez</p></b>
+                <a href="#" class="crunchify-top"><img src ="img/flecha.png" width="70px" height="70px"></a>
             </footer>
         </div>
     </body>

@@ -33,6 +33,11 @@
     <body cz-shorcut-listen="true">
         <?php
 		    if(isset($_SESSION['username'])){
+		    	include('conexion.php');
+
+				$sql_usuario = "SELECT log_username FROM tbl_login WHERE log_id=$_SESSION[id]";
+				$datos_usuario = mysqli_query($con, $sql_usuario);
+				$usuario = mysqli_fetch_array($datos_usuario);
 		?>
 		        <div id="cont">
 		            <header id="cab">
@@ -48,9 +53,7 @@
 		    	include('conexion.php');
 		    	$sql_mod_cont = "SELECT * FROM tbl_contacto WHERE con_id=$_REQUEST[con_id]";
 		    	$datos_mod_cont = mysqli_query($con, $sql_mod_cont);
-		?>
 
-		<?php
 				if(mysqli_num_rows($datos_mod_cont) > 0){
 					$modificar = mysqli_fetch_array($datos_mod_cont);
 		?>
@@ -88,7 +91,8 @@
 						</article>
 					</section><br />
 					<footer id="foot">
-		            	<p>Derechos reservados &copy;2016 - Alejandro Moreno y Raúl Pérez</p>
+		            	<b><p>Derechos reservados &copy;2016 - Alejandro Moreno y Raúl Pérez</p></b>
+		            	<a href="#" class="crunchify-top"><img src ="img/flecha.png" width="70px" height="70px"></a>
 		            </footer>
 				</div>
 		<?php

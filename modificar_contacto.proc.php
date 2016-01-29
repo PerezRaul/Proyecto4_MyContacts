@@ -11,11 +11,10 @@
 
 		$datos_modificar = mysqli_query($con,utf8_decode($sql_modificar));
 
-		if(mysqli_affected_rows($datos_modificar) == 0){
-			$_SESSION['error'] = "¡No se ha podido modificar el contacto!";
+		if(mysqli_affected_rows($con) == 0){
 			header("location: modificar_contacto.php?con_id=$con_id");
 		} else {
-			header('location: modificar_contacto.php?con_id=$con_id');
+			header('location: principal.php');
 		}
 
 		mysqli_close($con);

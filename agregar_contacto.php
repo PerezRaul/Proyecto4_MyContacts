@@ -29,6 +29,27 @@
         <!-- FONTAWESOME ICONS-->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
+        <!-- EFECTO METRO -->
+        <script>            
+	        jQuery(document).ready(function() {
+	        	var offset = 220;
+	          	var duration = 500;
+	          	jQuery(window).scroll(function() {
+	            	if (jQuery(this).scrollTop() > offset) {
+	              		jQuery('.crunchify-top').fadeIn(duration);
+	            	} else {
+	              		jQuery('.crunchify-top').fadeOut(duration);
+	            	}
+	          	});
+	       
+	          	jQuery('.crunchify-top').click(function(event) {
+	            	event.preventDefault();
+	            	jQuery('html, body').animate({scrollTop: 0}, duration);
+	            	return false;
+	          	})
+	        });
+	    </script>
+
         <style>
 	      	html, body {
 		        height: 100%;
@@ -36,10 +57,8 @@
 		        padding: 0;
 	      	}
 	      	#mapaparasituar {
-		        margin-right: auto;
-		        margin-left: auto;
 		        height: 300px;
-		        width: 700px;
+		        width: 100%;
 		        margin-top: 20px;
 	      	}
 	     	 #map {
@@ -56,7 +75,7 @@
 		        margin-bottom: 30px;
 		        margin-right: 30px;
 		        padding: 10px;
-		        left: 76%;
+		        left: 30%;
 		        background-color: white;
 		        width-min: 200px !important;
 		        height-min: 100px !important;
@@ -108,11 +127,24 @@
     <body>
     	<?php
     		if(isset($_SESSION['username'])){
+    			include('conexion.php');
+
+				$sql_usuario = "SELECT log_username FROM tbl_login WHERE log_id=$_SESSION[id]";
+				$datos_usuario = mysqli_query($con, $sql_usuario);
+				$usuario = mysqli_fetch_array($datos_usuario);
     	?>
     			<div id="cont">
 		            <header id="cab">
-		                <img src="img/logo.png" width="50px" height="55px" />
-		                <h1 id="my">MyContacts</h1>
+		                <a href="principal.php"><img src="img/logo.png" width="50px" height="55px" />
+		                <h1 id="my" style="display: inline;">MyContacts</h1></a>
+		                <?php
+		                	echo "<a id='modificarPerfil' href='modificar_usuario.php?usu_id=$_SESSION[id]'>Modificar perfil</a>";
+		                ?>
+		                <a href="principal.php" id="misContactos">Mis contactos</a>
+		                <?php
+		                	echo "<b>".$usuario['log_username']."</b>";
+		                ?>
+		                <a href="logout.php">Logout</a>
 		            </header>
 		            <section id="sec">
 		                <article id="art3">
@@ -120,11 +152,27 @@
 		                        <h1> Añadir contacto </h1>
 		                    </header>
 							<form name="agregar" action="agregar_contacto.proc.php" method="post">
-								Nombre del contacto: <input type="text" name="nombre" /><br /><br />
-								Apellidos del contacto: <input type="text" name="apellidos" /><br /><br />
-								Mail del contacto: <input type="text" name="mail" /><br /><br />
-								Teléfono fijo del contacto: <input type="text" name="telf_fijo" /><br /><br />
-								Teléfono móvil del contacto: <input type="text" name="telf_mvl" /><br /><br />
+								<div class="input-group">
+		                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+		                            <input type="text" class="form-control" name="nombre" placeholder="Nombre" maxlength="25" />
+		                        </div><br />
+		                        <div class="input-group">
+		                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+		                            <input type="text" class="form-control" name="apellidos" placeholder="Apellidos" maxlength="35" />
+		                        </div><br />
+		                        <div class="input-group">
+		                            <span class="input-group-addon"><i class="fa fa-at"></i></span>
+		                            <input type="text" class="form-control" name="mail" placeholder="E-mail" maxlength="50" />
+		                        </div><br />
+		                        <div class="input-group">
+		                            <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+		                            <input type="text" class="form-control" name="telf_fijo" placeholder="Teléfono fijo" maxlength="9" />
+		                        </div><br />
+		                        <div class="input-group">
+		                            <span class="input-group-addon"><i class="fa fa-mobile fa-lg"></i></span>
+		                            <input type="text" class="form-control" name="telf_mvl" placeholder="Teléfono móvil" maxlength="9" />
+		                        </div><br />
+								
 								<div id="mapaparasituar">
 								    <input id="pac-input" class="controls" type="text"
 								        placeholder="Introduce la localización">
@@ -200,7 +248,7 @@
 										       var localizacion = '<input name="latitud" value="'+latitud+'" readonly /><input name="longitud" value="'+longitud+'" readonly /><input name="direccion" value="'+place.formatted_address+'" readonly />';
 										         //dirección=<input value='"+place.address_components[1].long_name+", "+place.address_components[0].long_name+", "+place.address_components[2].long_name+"' readonly />";
 										       document.getElementById("panel").innerHTML = localizacion;
-										       document.getElementById("panel").style.display = "inline";
+										       //document.getElementById("panel").style.display = "inline";
 										    }
 
 										    infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
@@ -237,25 +285,28 @@
 										  //      var localizacion = place;
 										  //      //var localizacion = "latitud=<input value='"+latitud+"' readonly /><br/><br/>longitud=<input value='"+longitud+"' readonly />";
 										      document.getElementById("panel").innerHTML = place.geometry.location.lng();
-										      document.getElementById("panel").style.display = "inline";
+										      //document.getElementById("panel").style.display = "inline";
 										}
 								    </script>
 								    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC__AIH1JoDnULPGkVqYRsPFDavL-aoQO8&signed_in=true&libraries=places&callback=initMap"
 								        async defer></script>
-					  			</div>
+					  			</div><br />
 								<div>
 						            <?php
-						                if(isset($error)){
-						                    echo $error ."<br /><br />";
+						                if(isset($error)){	
+						                	if($error != ''){
+						                    	echo $error ."<br /><br />";
+						                	}
 						                }
 						            ?>
-						        </div>
-								<input type="submit" name="anadir" value="Añadir" />
+						        </div><br />
+								<input type="submit" class="btn btn-success" name="anadir" value="Añadir" />
 							</form>
 						</article>
 					</section><br />
 					<footer id="foot">
-		            	<p>Derechos reservados &copy;2016 - Alejandro Moreno y Raúl Pérez</p>
+		            	<b><p>Derechos reservados &copy;2016 - Alejandro Moreno y Raúl Pérez</p></b>
+		            	<a href="#" class="crunchify-top"><img src ="img/flecha.png" width="70px" height="70px"></a>
 		            </footer>
 				</div>
 		<?php

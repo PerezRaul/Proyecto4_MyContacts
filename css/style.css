@@ -53,13 +53,25 @@ a:hover {
 
 #art2 {
 	width: 60%;
-	margin-left: 20% !important;
+	margin-left: -50px !important;
 	text-align: center;
 }
 
 #art3 {
 	width: 40%;
 	margin-left: 30% !important;
+	text-align: center;
+}
+
+#art4 {
+	width: 25%;
+	margin-left: 38% !important;
+	text-align: center;
+}
+
+#art5 {
+	width: 25%;
+	margin-left: 38% !important;
 	text-align: center;
 }
 
@@ -71,7 +83,14 @@ a:hover {
 }
 
 #modificarPerfil {
-	margin-left: 40%;
+	margin-left: 30%;
+	color: black;
+}
+
+#misContactos {
+	margin-left: 3%;
+	margin-right: 3%; 
+	color: black;
 }
 
 #mostrarContactosDiv {

@@ -2,14 +2,17 @@
 	session_start();
 
 	if(isset($_SESSION['username'])){
+
 		include('conexion.php');
 
-		$sql_eliminar = "DELETE tbl_contacto, tbl_mapa FROM tbl_contacto LEFT JOIN tbl_mapa ON tbl_contacto.con_id=tbl_mapa.con_id WHERE tbl_contacto.con_id=$_REQUEST[con_id]";
+		$sql_modificar = "UPDATE tbl_login SET log_username='$_REQUEST[username]', log_mail='$_REQUEST[mail]' WHERE log_id=$_REQUEST[id]";
 
-		$datos_eliminar = mysqli_query($con,$sql_eliminar);
+		$usu_id = $_REQUEST['id'];
+
+		$datos_modificar = mysqli_query($con,utf8_decode($sql_modificar));
 
 		if(mysqli_affected_rows($con) == 0){
-			header("location: principal.php");
+			header("location: modificar_usuario.php?usu_id=$usu_id");
 		} else {
 			header('location: principal.php');
 		}

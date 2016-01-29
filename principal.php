@@ -1,5 +1,9 @@
 <?php 
 	session_start();
+
+	if(isset($_SESSION['error'])){
+		$error=$_SESSION['error'];
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -46,18 +50,114 @@
 	        });
 	    </script>
 
+	    <style type="text/css">
+	      #map {
+	        height: 480px;
+	        width: 550px;
+	        margin-top: 85px;
+	        margin-left: 640px;
+	        border: 1px solid #D2D2D2;
+	        position: fixed !important;
+	        overflow: hidden;
+	      }
+	    </style>
+
     </head>
     <body cz-shorcut-listen="true">
     	<?php
 		    if(isset($_SESSION['username'])){
+		    	include('conexion.php');
+
+				$sql_usuario = "SELECT log_username FROM tbl_login WHERE log_id=$_SESSION[id]";
+				$datos_usuario = mysqli_query($con, $sql_usuario);
+				$usuario = mysqli_fetch_array($datos_usuario);
+
 		?>
+		<div id="map"></div> 
+    <script type="text/javascript">
+        var map;
+        function initMap() {
+          map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 41.3495464, lng: 2.1076887},
+            //mapTypeId: google.maps.MapTypeId.SATELLITE,
+            mapTypeId:google.maps.MapTypeId.ROADMAP,
+            zoom: 11
+          });
+          cargaContenido();
+        }
+
+        var READY_STATE_UNINITIALIZED=0;
+        var READY_STATE_LOADING=1;
+        var READY_STATE_LOADED=2;
+        var READY_STATE_INTERACTIVE=3;
+        var READY_STATE_COMPLETE=4;
+
+        var peticion_http,datosCargados;
+
+        function inicializa_xhr() {
+          if(window.XMLHttpRequest) {
+            return new XMLHttpRequest();
+          }
+          else if(window.ActiveXObject) {
+            return new ActiveXObject("Microsoft.XMLHTTP");
+          }
+        }
+
+        function cargaContenido() {
+          peticion_http = inicializa_xhr();
+          if(peticion_http) {
+            peticion_http.onreadystatechange = muestraContenido;
+            peticion_http.open("GET", "mapacontacts.php", true);
+            peticion_http.send(null);
+          }
+        }
+
+        function muestraContenido() {
+          if(peticion_http.readyState == READY_STATE_COMPLETE) {
+            if(peticion_http.status == 200) {
+              ///creamos los markers
+              datosCargados=eval('('+peticion_http.responseText+')');
+              for(var i=0;i<datosCargados.contacto.length;i++){
+                var myLatLng = {lat: datosCargados.contacto[i].posicion.lat, lng: datosCargados.contacto[i].posicion.lng};
+                var marker = new google.maps.Marker({
+                  map: map,
+                  position: myLatLng,
+                  opacity:1,
+                  animation:google.maps.Animation.DROP,  //DROP, BOUNCE
+                  title: datosCargados.contacto[i].nombre
+                });
+                var contentString;
+                var infowindow = new google.maps.InfoWindow();
+
+                google.maps.event.addListener(marker,'click', (function(marker,i) {
+                  return function() {
+                    contentString = '<div id="content"'+'" alt="'+datosCargados.contacto[i].nombre+'" height="42" width="42"><p>'+datosCargados.contacto[i].nombre+'<br>'+datosCargados.contacto[i].direccion+'</p></div>';
+                    infowindow.setContent(contentString);
+                    infowindow.open(map, marker);
+                  }
+
+                })(marker,i));
+              }
+            }
+          }
+        }
+        
+    </script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhXaF13fF5Exi4nzqVZ_PD1q9bO_O8Y_M&callback=initMap">
+    </script>
 		        <div id="cont">
 		            <header id="cab">
-		                <img src="img/logo.png" width="50px" height="55px" />
-		                <h1 id="my" style="display: inline;">MyContacts</h1>
+		                <a href="principal.php"><img src="img/logo.png" width="50px" height="55px" />
+		                <h1 id="my" style="display: inline;">MyContacts</h1></a>
 		                <?php
 		                	echo "<a id='modificarPerfil' href='modificar_usuario.php?usu_id=$_SESSION[id]'>Modificar perfil</a>";
 		                ?>
+		                <a href="principal.php" id="misContactos">Mis contactos</a>
+		                <?php
+		                	echo "<b>".$usuario['log_username']."</b>";
+		                ?>
+		                <a href="logout.php">Logout</a>
 		            </header>
 		            <section id="sec">
                 		<article id="art2">
@@ -65,10 +165,17 @@
 					        	<h1 style="display:inline;">Agenda de contactos</h1>
 					        	<a href="agregar_contacto.php"><i class="fa fa-plus-circle fa-3x" style="color:green;"></i></a>
 					        </header><br />
+					        <div>
+			                    <?php
+			                        if(isset($error)){
+			                            echo $error ."<br /><br />";
+			                        }
+			                    ?>
+			                </div>
 		<?php
 				include('conexion.php');
 
-				$sql_contactos = "SELECT * FROM tbl_contacto WHERE log_id=$_SESSION[id]";
+				$sql_contactos = "SELECT * FROM tbl_contacto LEFT JOIN tbl_mapa ON tbl_contacto.con_id=tbl_mapa.con_id WHERE log_id=$_SESSION[id]";
 				$datos_contactos = mysqli_query($con, $sql_contactos);
 
 				if(mysqli_num_rows($datos_contactos) > 0){
@@ -88,7 +195,7 @@
 						</article>
 					</section>
 					<footer id="foot">
-						<p>Derechos reservados &copy;2016 - Alejandro Moreno y Raúl Pérez</p>
+						<b><p>Derechos reservados &copy;2016 - Alejandro Moreno y Raúl Pérez</p></b>
 						<a href="#" class="crunchify-top"><img src ="img/flecha.png" width="70px" height="70px"></a>
 					</footer>
 				</div>

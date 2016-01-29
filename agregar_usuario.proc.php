@@ -1,5 +1,5 @@
 <?php
-	//session_start();
+	session_start();
 
 	include('conexion.php');
 
@@ -9,11 +9,9 @@
 
 	$datos_agregar = mysqli_query($con,utf8_decode($sql_agregar));
 
-	if(mysqli_affected_rows($datos_agregar) == 0){
-		//$_SESSION['error'] = "¡No se ha podido crear el usuario!";
+	if(mysqli_affected_rows($con) == 0){
 		header("location: agregar_usuario.php");
 	} else {
-		//$_SESSION['error'] = "¡Usuario creado correctamente!";
 		header('location: index.php');
 	}
 
